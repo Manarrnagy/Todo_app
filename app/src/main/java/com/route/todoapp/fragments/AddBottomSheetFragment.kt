@@ -70,9 +70,14 @@ class AddBottomSheetFragment : BottomSheetDialogFragment() {
             description = descriptionTextInput.editText!!.text.toString(),
             isDone = false, date = selectedDate.time.time)
             MyDatabase.getInstance(requireContext()).getTodoDao().addTodo(todo)
+            onAddClicked?.onClick()
             dismiss()
         }
 
+    }
+    var onAddClicked: OnAddClicked? = null
+    interface OnAddClicked{
+        fun onClick()
     }
     fun validate():Boolean{
         var isValid = true

@@ -35,6 +35,12 @@ class HomeActivity : AppCompatActivity() {
         })
         floatingButton.setOnClickListener{
             val addBottomSheet = AddBottomSheetFragment()
+            addBottomSheet.onAddClicked = object : AddBottomSheetFragment.OnAddClicked{
+                override fun onClick() {
+
+                }
+
+            }
             addBottomSheet.show(supportFragmentManager,"")
         }
     }
