@@ -17,6 +17,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.route.todoapp.R
+import com.route.todoapp.database_model.MyDatabase
+import com.route.todoapp.database_model.Todo
 import java.util.*
 
 
@@ -64,6 +66,11 @@ class AddBottomSheetFragment : BottomSheetDialogFragment() {
         }
         addTodo.setOnClickListener {
             if(!validate()) return@setOnClickListener
+            val todo = Todo(title = titleTextInput.editText!!.text.toString(),
+            description = descriptionTextInput.editText!!.text.toString(),
+            isDone = false, date = selectedDate.time.time)
+            MyDatabase.getInstance(requireContext()).getTodoDao().addTodo(todo)
+            dismiss()
         }
 
     }
