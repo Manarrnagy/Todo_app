@@ -14,7 +14,7 @@ abstract class MyDatabase: RoomDatabase() {
      var database: MyDatabase? = null
      fun getInstance(context : Context): MyDatabase{
          if (database == null) {
-             val database =
+              database =
                  Room.databaseBuilder(context, MyDatabase::class.java, "MyDatabase").allowMainThreadQueries().fallbackToDestructiveMigration().build()
          }
          return database!!

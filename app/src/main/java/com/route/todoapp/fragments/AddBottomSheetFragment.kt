@@ -24,11 +24,13 @@ import java.util.*
 
 class AddBottomSheetFragment : BottomSheetDialogFragment() {
 
-    lateinit var dateTv : TextView
+    lateinit var dateTv : TextView //selectDateTv
     var selectedDate : Calendar= Calendar.getInstance()
     lateinit var titleTextInput : TextInputLayout
     lateinit var descriptionTextInput : TextInputLayout
     lateinit var addTodo : Button
+    var onAddClicked: OnAddClicked? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,6 +68,11 @@ class AddBottomSheetFragment : BottomSheetDialogFragment() {
         }
         addTodo.setOnClickListener {
             if(!validate()) return@setOnClickListener
+            selectedDate.clear(Calendar.HOUR)
+            selectedDate.clear(Calendar.MINUTE)
+            selectedDate.clear(Calendar.SECOND)
+            selectedDate.clear(Calendar.MILLISECOND)
+
             val todo = Todo(title = titleTextInput.editText!!.text.toString(),
             description = descriptionTextInput.editText!!.text.toString(),
             isDone = false, date = selectedDate.time.time)
@@ -75,7 +82,7 @@ class AddBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
     }
-    var onAddClicked: OnAddClicked? = null
+
     interface OnAddClicked{
         fun onClick()
     }

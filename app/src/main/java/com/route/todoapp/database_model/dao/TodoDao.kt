@@ -16,4 +16,7 @@ interface TodoDao {
 
     @Query ("select * from Todo")
     fun getTodos(): List<Todo>
+
+    @Query("select * from Todo where date = :date ")
+    fun getTodosByDate(date: Long):List<Todo>
 }

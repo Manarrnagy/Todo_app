@@ -9,13 +9,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationBarView
 import com.route.todoapp.R
+import com.route.todoapp.database_model.Todo
 import com.route.todoapp.fragments.AddBottomSheetFragment
+import com.route.todoapp.fragments.EditTaskFragment
 import com.route.todoapp.fragments.ListFragment
 import com.route.todoapp.fragments.SettingsFragment
 
 class HomeActivity : AppCompatActivity() {
     lateinit var bottomNav : BottomNavigationView
     lateinit var floatingButton : FloatingActionButton
+    var listFragment = ListFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -26,8 +29,9 @@ class HomeActivity : AppCompatActivity() {
 
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
                 if (item.itemId == R.id.listItem) {
-                    pushFragment(ListFragment())
+                    pushFragment(listFragment)
                 } else {
+                   // pushFragment(EditTaskFragment())
                     pushFragment(SettingsFragment())
                 }
                 return true
@@ -38,11 +42,13 @@ class HomeActivity : AppCompatActivity() {
             addBottomSheet.onAddClicked = object : AddBottomSheetFragment.OnAddClicked{
                 override fun onClick() {
 
+                    listFragment.refreshTodos()
                 }
 
             }
             addBottomSheet.show(supportFragmentManager,"")
         }
+        pushFragment(listFragment)
     }
     fun pushFragment(fragment: Fragment){
         supportFragmentManager.beginTransaction()
