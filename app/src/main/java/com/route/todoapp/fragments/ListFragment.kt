@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -28,6 +29,7 @@ class ListFragment : Fragment(){
     var adapter = TodoAdapter( listOf())
     var selectedDay: Calendar = Calendar.getInstance()
      lateinit var deletedTodo : Todo
+    lateinit var selectedTodo : Todo
 
 //    lateinit var itemTodo: CardView
     override fun onCreateView(
@@ -57,7 +59,7 @@ class ListFragment : Fragment(){
         }
         val swipeToDeleteCallback = object :SwipeToDeleteCallback(){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
+ //               val position = viewHolder.adapterPosition
 //                todoRecycler.adapter?.notifyItemRemoved(position)
                 MyDatabase.database?.getTodoDao()?.deleteTodo(deletedTodo)
                 refreshTodos()
@@ -65,6 +67,21 @@ class ListFragment : Fragment(){
         }
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(todoRecycler)
+
+        adapter.onItemDone = object : TodoAdapter.OnItemDone{
+            override fun updateItemDone(todo: Todo, isCheck:View, verticalLine: View, taskTitle: TextView, doneTv: TextView) {
+                verticalLine.setBackgroundColor(getResources().getColor(R.color.green))
+                taskTitle.setTextColor(getResources().getColor(R.color.green))
+                doneTv.setTextColor(getResources().getColor(R.color.green))
+                isCheck.setBackgroundColor(getResources().getColor(R.color.transparent))
+                todo.isDone =true
+                MyDatabase.database?.getTodoDao()?.updateTodo(todo)
+
+                Log.e("ON ITEM DONE", "")
+                refreshTodos()
+            }
+
+        }
     }
     fun initListeners(){
         calendarView.setOnDateChangedListener(object: OnDateSelectedListener {
@@ -90,6 +107,7 @@ class ListFragment : Fragment(){
        val Todos = MyDatabase.getInstance(requireContext()).getTodoDao().getTodosByDate(
            selectedDay.time.time
        )
+        Log.e("TODOS ", ""+Todos)
         adapter.changeData(Todos)
     }
 }

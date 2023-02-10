@@ -57,6 +57,21 @@
             android:paddingHorizontal="18dp"
             android:layout_marginEnd="8dp"
             />
+        <TextView
+            android:id="@+id/doneTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="18dp"
+            android:layout_marginEnd="8dp"
+            android:text="Done!"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/transparent"
+            />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView >
