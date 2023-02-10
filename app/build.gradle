@@ -2,6 +2,10 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+//    id "androidx.navigation.safeargs"
+    //id "androidx.navigation.safeargs.kotlin"
+
+
 }
 
 android {
@@ -45,13 +49,16 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    //Calender
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
-
+    //ROOM
     def room_version = '2.5.0'
-
-
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    //Navigation
+   // def nav_version = "2.5.3"
+  //  classpath"androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

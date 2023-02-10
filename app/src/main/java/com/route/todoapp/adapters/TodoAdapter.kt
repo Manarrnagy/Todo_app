@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.route.todoapp.R
 import com.route.todoapp.database_model.Todo
@@ -19,6 +18,8 @@ class TodoAdapter(var items : List<Todo>) : RecyclerView.Adapter<TodoAdapter.Vie
         val taskTitle = itemView.findViewById<TextView>(R.id.taskTitle)
         val taskDescription = itemView.findViewById<TextView>(R.id.taskDescription)
         val icCheck = itemView.findViewById<ImageView>(R.id.icCheck)
+        val verticalLine = itemView.findViewById<View>(R.id.verticalLine)
+        val doneTv = itemView.findViewById<TextView>(R.id.doneTv)
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,23 +36,32 @@ class TodoAdapter(var items : List<Todo>) : RecyclerView.Adapter<TodoAdapter.Vie
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-       val todo = items.get(position)
+       var todo = items.get(position)
         holder.taskTitle.text = todo.title
         holder.taskDescription.text = todo.description
         holder.card.setOnClickListener {
-            onItemClick?.onTaskClick(items.get(position).id,items.get(position).title,items.get(position).description,items.get(position).date, items.get(position).isDone)
+            onItemClick?.onTaskClick(items.get(position))
         }
         onItemDelete?.RoomItemDelete(items.get(position))
+        holder.icCheck.setOnClickListener{
+            onItemDone?.updateItemDone(items.get(position),holder.icCheck,holder.verticalLine,holder.taskTitle, holder.doneTv)
+        }
 
     }
     var onItemClick : OnItemClick?= null
     interface OnItemClick{
-        fun onTaskClick(id:Int, title:String, description: String,date:Long, isDone:Boolean)
+        fun onTaskClick(todo:Todo)
     }
 
     var onItemDelete : OnItemDelete? = null
     interface OnItemDelete {
         fun RoomItemDelete(todo: Todo)
+    }
+
+    var onItemDone : OnItemDone? = null
+    interface  OnItemDone{
+        fun updateItemDone(todo: Todo, isCheck:View, verticalLine: View, taskTitle:TextView , doneTv: TextView)
+
     }
 }
 

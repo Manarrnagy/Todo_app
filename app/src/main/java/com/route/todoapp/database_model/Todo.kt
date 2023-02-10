@@ -16,5 +16,5 @@ data class Todo (
     @ColumnInfo
     val date : Long,
     @ColumnInfo
-    val isDone: Boolean
+    var isDone: Boolean
     )
