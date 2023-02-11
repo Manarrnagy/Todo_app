@@ -21,6 +21,7 @@ import com.route.todoapp.adapters.TodoAdapter
 import com.route.todoapp.database_model.MyDatabase
 import com.route.todoapp.database_model.Todo
 import com.route.todoapp.database_model.dao.TodoDao
+import com.route.todoapp.ui.EditTaskActivity
 import java.util.*
 
 class ListFragment : Fragment(){
@@ -51,6 +52,8 @@ class ListFragment : Fragment(){
         calendarView.selectedDate = CalendarDay.today()
         todoRecycler = view.findViewById(R.id.listRecyclerView)
         todoRecycler.adapter =adapter
+
+        //--------------------------------------- ON TASK DELETE--------------------------------------------
         adapter.onItemDelete = object : TodoAdapter.OnItemDelete {
             override fun RoomItemDelete(todo:Todo) {
                 deletedTodo = todo
@@ -68,6 +71,8 @@ class ListFragment : Fragment(){
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(todoRecycler)
 
+        //--------------------------------------------ON TASK DONE--------------------------------------
+
         adapter.onItemDone = object : TodoAdapter.OnItemDone{
             override fun updateItemDone(todo: Todo, isCheck:View, verticalLine: View, taskTitle: TextView, doneTv: TextView) {
                 verticalLine.setBackgroundColor(getResources().getColor(R.color.green))
@@ -77,8 +82,28 @@ class ListFragment : Fragment(){
                 todo.isDone =true
                 MyDatabase.database?.getTodoDao()?.updateTodo(todo)
 
-                Log.e("ON ITEM DONE", "")
                 refreshTodos()
+            }
+
+        }
+        //------------------------------------- ON TASK CLICK ------------------------------------------
+
+        adapter.onItemClick = object : TodoAdapter.OnItemClick {
+            override fun onTaskClick(
+                id: Int,
+                title: String,
+                description: String,
+                date: Long,
+                isDone: Boolean
+            ) {
+
+               val intent = Intent(requireContext(),EditTaskActivity::class.java)
+                intent.putExtra("id",id)
+                intent.putExtra("title",title)
+                intent.putExtra("description",description)
+                intent.putExtra("date",date)
+                intent.putExtra("isDone",isDone)
+                startActivity(intent)
             }
 
         }

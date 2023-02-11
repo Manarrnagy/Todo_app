@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TodoApp">
         <activity
+            android:name=".ui.EditTaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".home.HomeActivity"
             android:exported="false" />
         <activity
@@ -22,8 +25,7 @@
         </activity>
         <activity
             android:name=".fragments.EditTaskFragment"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>
